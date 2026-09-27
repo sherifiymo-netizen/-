@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق مانجا برو - المكتبة الشاملة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .manga-card-bw { background: linear-gradient(135deg, #111827 0%, #030712 100%); border: 1px solid #1f2937; }
+    </style>
+</head>
+<body class="bg-black text-white min-h-screen flex flex-col justify-between">
+
+    <div>
+        <!-- الشريط العلوي للتطبيق -->
+        <header class="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+                <h1 class="text-xl font-black text-rose-500 cursor-pointer" onclick="showTab('home')">🔥 مانجا برو</h1>
+                <nav class="hidden md:flex gap-6 text-xs font-bold text-gray-300">
+                    <button onclick="showTab('home')" class="hover:text-white">الرئيسية</button>
+                    <button onclick="showTab('store')" class="hover:text-white">المتجر</button>
+                    <button onclick="showTab('upload')" class="text-amber-400">نشر مانجا</button>
+                </nav>
+                <div class="flex gap-2">
+                    <button onclick="showTab('cart')" class="bg-gray-800 px-3 py-1.5 rounded-lg text-xs">🛒 سلة (<span id="cart-count">0</span>)</button>
+                    <button onclick="showTab('auth')" class="bg-rose-600 px-3 py-1.5 rounded-lg text-xs font-bold">حسابي</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- المحتوى -->
+        <main class="max-w-7xl mx-auto px-4 py-6">
+
+            <!-- 1. الرئيسية وقائمة القصص والمانجا -->
+            <div id="tab-home" class="tab-content active">
+                <div class="mb-6">
+                    <h2 class="text-lg font-black mb-2">📚 مكتبة المانجا (أكثر من قصة - قراءة فورية)</h2>
+                    <p class="text-xs text-gray-400">اختر أي قصة وابدأ القراءة بضغطة زر واحدة.</p>
+                </div>
+
+                <!-- شبكة المانجا (متعددة القصص) -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="manga-grid">
+                    <div class="manga-card-bw p-3 rounded-xl flex flex-col justify-between">
+                        <div>
+                            <div class="h-36 bg-gray-800 rounded-lg flex items-center justify-center text-3xl mb-2 font-mono">⚔️ B&W</div>
+                            <span class="text-[10px] text-rose-400 font-bold">أكشن / مغامرة</span>
+                            <h3 class="font-bold text-sm mt-1">طريق الساموراي الأخير</h3>
+                            <p class="text-[10px] text-gray-400 mt-1 line-clamp-2">قصة محارب يبحث عن الانتقام واستعادة شرف عائلته في عالم مظلم.</p>
+                        </div>
+                        <button onclick="openReader('طريق الساموراي الأخير', 'قصة محارب يبحث عن الانتقام واستعادة شرف عائلته في عالم مظلم.')" class="mt-3 w-full bg-gray-800 hover:bg-rose-600 text-xs py-2 rounded-lg font-bold transition">اقرأ فوراً 📖</button>
+                    </div>
+
+                    <div class="manga-card-bw p-3 rounded-xl flex flex-col justify-between">
+                        <div>
+                            <div class="h-36 bg-gray-800 rounded-lg flex items-center justify-center text-3xl mb-2 font-mono">🔮 B&W</div>
+                            <span class="text-[10px] text-rose-400 font-bold">خيال سحري</span>
+                            <h3 class="font-bold text-sm mt-1">مملكة التعويذات الملعونة</h3>
+                            <p class="text-[10px] text-gray-400 mt-1 line-clamp-2">طالب فاشل يكتشف سراً خطيراً يغير تاريخ الأكاديمية السحرية.</p>
+                        </div>
+                        <button onclick="openReader('مملكة التعويذات الملعونة', 'طالب فاشل يكتشف سراً خطيراً يغير تاريخ الأكاديمية السحرية.')" class="mt-3 w-full bg-gray-800 hover:bg-rose-600 text-xs py-2 rounded-lg font-bold transition">اقرأ فوراً 📖</button>
+                    </div>
+
+                    <div class="manga-card-bw p-3 rounded-xl flex flex-col justify-between">
+                        <div>
+                            <div class="h-36 bg-gray-800 rounded-lg flex items-center justify-center text-3xl mb-2 font-mono">🌑 B&W</div>
+                            <span class="text-[10px] text-rose-400 font-bold">غموض / رعب</span>
+                            <h3 class="font-bold text-sm mt-1">مدينة الظلال والوحوش</h3>
+                            <p class="text-[10px] text-gray-400 mt-1 line-clamp-2">ناجي وحيد يحاول كشف سر اختفاء سكان المدينة في ليلة مرعبة.</p>
+                        </div>
+                        <button onclick="openReader('مدينة الظلال والوحوش', 'ناجي وحيد يحاول كشف سر اختفاء سكان المدينة في ليلة مرعبة.')" class="mt-3 w-full bg-gray-800 hover:bg-rose-600 text-xs py-2 rounded-lg font-bold transition">اقرأ فوراً 📖</button>
+                    </div>
+
+                    <div class="manga-card-bw p-3 rounded-xl flex flex-col justify-between">
+                        <div>
+                            <div class="h-36 bg-gray-800 rounded-lg flex items-center justify-center text-3xl mb-2 font-mono">🚀 B&W</div>
+                            <span class="text-[10px] text-rose-400 font-bold">خيال علمي</span>
+                            <h3 class="font-bold text-sm mt-1">حرب المجرة الكبرى</h3>
+                            <p class="text-[10px] text-gray-400 mt-1 line-clamp-2">طيار فضائي يقود فرقة صغيرة لإنقاذ الكوكب من الدمار.</p>
+                        </div>
+                        <button onclick="openReader('حرب المجرة الكبرى', 'طيار فضائي يقود فرقة صغيرة لإنقاذ الكوكب من الدمار.')" class="mt-3 w-full bg-gray-800 hover:bg-rose-600 text-xs py-2 rounded-lg font-bold transition">اقرأ فوراً 📖</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. قارئ المانجا الفوري -->
+            <div id="tab-reader" class="tab-content">
+                <div class="flex justify-between items-center mb-4 bg-gray-900 p-3 rounded-xl border border-gray-800">
+                    <div>
+                        <h2 id="reader-title" class="text-sm font-bold text-rose-400">العنوان</h2>
+                        <p id="reader-story" class="text-[11px] text-gray-300 mt-1"></p>
+                    </div>
+                    <button onclick="showTab('home')" class="bg-gray-800 px-3 py-1 rounded-lg text-xs">إغلاق ✕</button>
+                </div>
+                <div class="flex flex-col gap-4 max-w-xl mx-auto">
+                    <div class="h-96 manga-card-bw rounded-xl flex flex-col items-center justify-center text-gray-400 font-mono text-sm border border-gray-800">صفحة القراءة (1) - أبيض وأسود</div>
+                    <div class="h-96 manga-card-bw rounded-xl flex flex-col items-center justify-center text-gray-400 font-mono text-sm border border-gray-800">صفحة القراءة (2) - أحداث مثيرة</div>
+                    <div class="h-96 manga-card-bw rounded-xl flex flex-col items-center justify-center text-gray-400 font-mono text-sm border border-gray-800">صفحة القراءة (3) - نهاية الفصل</div>
+                </div>
+            </div>
+
+            <!-- 3. المتجر وشراء المجلدات -->
+            <div id="tab-store" class="tab-content">
+                <h2 class="text-lg font-bold mb-4">🛒 المتجر المدفوع</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="manga-card-bw p-4 rounded-xl flex justify-between items-center">
+                        <div>
+                            <span class="text-[10px] bg-rose-500/20 text-rose-400 px-2 py-0.5 rounded font-bold">مجلد خاص</span>
+                            <h3 class="font-bold text-sm mt-1">عهد الملوك (المجلد 1)</h3>
+                            <p class="text-xs text-gray-400 mt-1">نسخة فاخرة ملوّنة وعالية الدقة.</p>
+                        </div>
+                        <div class="text-left">
+                            <span class="block text-sm font-black text-rose-400 mb-2">4.99 $</span>
+                            <button onclick="addToCart('عهد الملوك - المجلد 1', 4.99)" class="bg-rose-600 text-xs px-3 py-1.5 rounded-lg font-bold">شراء</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. السلة -->
+            <div id="tab-cart" class="tab-content">
+                <h2 class="text-lg font-bold mb-4">🛒 سلة المشتريات</h2>
+                <div class="manga-card-bw p-4 rounded-xl max-w-md">
+                    <div id="cart-items" class="text-xs text-gray-300 mb-3">السلة فارغة.</div>
+                    <div class="border-t border-gray-800 pt-3 flex justify-between items-center font-bold text-sm">
+                        <span>المجموع: <span id="cart-total" class="text-rose-400">0.00 $</span></span>
+                        <button onclick="alert('تم الدفع بنجاح!')" class="bg-rose-600 text-xs px-4 py-2 rounded-lg">إتمام الدفع</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. ركن النشر الحر للمبدعين -->
+            <div id="tab-upload" class="tab-content">
+                <div class="manga-card-bw p-5 rounded-xl max-w-lg mx-auto">
+                    <h2 class="text-base font-bold text-amber-400 mb-3">🚀 انشر مانجتك الخاصة</h2>
+                    <div class="flex flex-col gap-3">
+                        <input type="text" id="up-title" placeholder="عنوان المانجا" class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-xs">
+                        <textarea id="up-story" placeholder="قصة المانجا وملخص الأحداث..." rows="3" class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-xs"></textarea>
+                        <button onclick="publishManga()" class="bg-amber-500 text-black font-bold py-2 rounded-lg text-xs">نشر الآن</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. حساب المستخدم -->
+            <div id="tab-auth" class="tab-content">
+                <div class="manga-card-bw p-5 rounded-xl max-w-sm mx-auto">
+                    <h2 class="text-base font-bold mb-4 text-center">حسابك الشخصي</h2>
+                    <div class="flex flex-col gap-3">
+                        <input type="email" placeholder="البريد الإلكتروني" class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-xs">
+                        <input type="password" placeholder="كلمة المرور" class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-xs">
+                        <button onclick="alert('تم تسجيل الدخول!')" class="bg-rose-600 font-bold py-2 rounded-lg text-xs">دخول / تسجيل</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <footer class="bg-gray-900 border-t border-gray-800 py-4 text-center text-gray-500 text-[10px]">
+        جميع الحقوق محفوظة © 2026 - مانجا برو
+    </footer>
+
+    <!-- السكريبت البرمجي -->
+    <script>
+        let cart = [];
+
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function openReader(title, story) {
+            document.getElementById('reader-title').innerText = title;
+            document.getElementById('reader-story').innerText = "القصة: " + story;
+            showTab('reader');
+        }
+
+        function addToCart(item, price) {
+            cart.push({name: item, price: price});
+            document.getElementById('cart-count').innerText = cart.length;
+            let container = document.getElementById('cart-items');
+            let total = 0;
+            container.innerHTML = "";
+            cart.forEach(p => {
+                total += p.price;
+                container.innerHTML += `<div class="flex justify-between py-1 border-b border-gray-800"><span>${p.name}</span> <span class="text-rose-400">${p.price}$</span></div>`;
+            });
+            document.getElementById('cart-total').innerText = total.toFixed(2) + " $";
+            alert('تمت الإضافة للسلة!');
+        }
+
+        function publishManga() {
+            let title = document.getElementById('up-title').value;
+            let story = document.getElementById('up-story').value;
+            if(title && story) {
+                let grid = document.getElementById('manga-grid');
+                grid.innerHTML += `
+                    <div class="manga-card-bw p-3 rounded-xl flex flex-col justify-between">
+                        <div>
+                            <div class="h-36 bg-gray-800 rounded-lg flex items-center justify-center text-3xl mb-2 font-mono">✨ B&W</div>
+                            <span class="text-[10px] text-amber-400 font-bold">عمل مستقل</span>
+                            <h3 class="font-bold text-sm mt-1">${title}</h3>
+                            <p class="text-[10px] text-gray-400 mt-1 line-clamp-2">${story}</p>
+                        </div>
+                        <button onclick="openReader('${title}', '${story}')" class="mt-3 w-full bg-gray-800 hover:bg-rose-600 text-xs py-2 rounded-lg font-bold transition">اقرأ فوراً 📖</button>
+                    </div>
+                `;
+                alert('تم نشر مانجتك بنجاح وأصبحت في الواجهة!');
+                showTab('home');
+            } else {
+                alert('يرجى ملء العنوان وقصة المانجا.');
+            }
+        }
+    </script>
+</body>
+</html>
